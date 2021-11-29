@@ -28,7 +28,7 @@ class Landing extends Component {
                 }}
                 className="btn btn-large waves-effect waves-light hoverable blue accent-3"
               >
-                Register
+                Register Now
               </Link>
             </div>
             <div className="col s6">
@@ -41,7 +41,7 @@ class Landing extends Component {
                 }}
                 className="btn btn-large btn-flat waves-effect white black-text"
               >
-                Log In
+                Log In Now
               </Link>
             </div>
           </div>

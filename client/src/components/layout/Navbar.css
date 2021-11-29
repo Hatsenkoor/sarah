@@ -1,0 +1,25 @@
+.domainnav{
+    background-color: #2b333b !important;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+h1.domainlogo b{
+    color: #00cc99;
+    margin-left: 100px;
+}
+
+#myNavBar .btn-outline-primary {
+    color: #00cc99;
+    border-color: #00cc99;
+}
+
+#myNavBar .btn-primary {
+    color: #000;
+    border-color: #00cc99;
+    background-color: #00cc99;
+}
+
+#myNavBar {
+    margin-right: 100px;
+}

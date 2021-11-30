@@ -290,7 +290,7 @@ class Register extends Component {
     const doPayment = () => {
         return(
            <div className = "domain-register-box">
-              <EtherumQRCode value={price} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
+              <EtherumQRCode value={price * 1000000000000000000} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
            </div>
         );
     }

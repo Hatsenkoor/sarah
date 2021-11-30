@@ -38,6 +38,7 @@ class EthereumQRCode extends Component {
     });
 
     qrCode.then((code) => {
+      console.log(code);
       if (this.props.afterGenerate) {
         this.props.afterGenerate(code);
         console.log("success generated");

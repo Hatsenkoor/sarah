@@ -51,11 +51,13 @@ class Register extends Component {
       wallet: "0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66",
       ipfshash: "",
       recoveryPhase : "foam pumpkin road educate valley gain unique guess nurse small doctor return",
+      orderID:123456,
       errors: {}
     };
   }
 
   componentDidMount() {
+    this.generateOrderID();
     // If logged in and user navigates to Register page, should redirect them to dashboard
     // this.createIPFSPage();
     // this.props.createIPFSAction();
@@ -193,8 +195,14 @@ class Register extends Component {
            
   }
 
+  generateOrderID = () => {
+    let h = Math.floor(100000 + Math.random() * 900000);
+    console.log(h);
+    this.setState({orderID: h});
+ }
+
   render() {
-    const { errors, current, price, tempDomainName, verifyResult, uniqueIndex, passwordSaved, loading, registerloading } = this.state;
+    const { errors, current, price, tempDomainName, verifyResult, uniqueIndex, passwordSaved, loading, registerloading, orderID } = this.state;
     
     const domainVerify = () => {
         return(<Spin tip="Loading..." spinning = {loading}>
@@ -287,13 +295,15 @@ class Register extends Component {
         setCurrent(current + 1);
     }
                     
-    const doPayment = () => {
+    const doPayment = () => {        
         return(
            <div className = "domain-register-box">
-              <EtherumQRCode value={price * 1000000000000000000} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
+              <EtherumQRCode value={price * 1000000000000000000 + orderID * 10000000000} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
            </div>
         );
     }
+
+    
 
     const setPassword = () => {
         return(<Spin tip="Saving..." spinning = {false}>

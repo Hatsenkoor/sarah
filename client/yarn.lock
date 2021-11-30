@@ -2058,6 +2058,11 @@
   "resolved" "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.0.1.tgz"
   "version" "9.0.1"
 
+"bignumber.js@4.1.0":
+  "integrity" "sha512-eJzYkFYy9L4JzXsbymsFn3p54D+llV27oTQ+ziJG7WFRheJcNZilgVXMG0LoZtlQSKBsJdWtLFqOD0u+U0jZKA=="
+  "resolved" "https://registry.npmjs.org/bignumber.js/-/bignumber.js-4.1.0.tgz"
+  "version" "4.1.0"
+
 "binary-extensions@^1.0.0":
   "integrity" "sha512-DYWGk01lDcxeS/K9IHPGWfT8PsJmbXRtRd2Sx72Tnb8pcYZQFF1oSDb8hJtS1vhp212q1Rzi5dUf9+nq0o9UIg=="
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-1.12.0.tgz"
@@ -2787,7 +2792,7 @@
     "color-convert" "^1.9.1"
     "color-string" "^1.5.2"
 
-"colors@~1.1.2":
+"colors@*", "colors@~1.1.2":
   "integrity" "sha1-FopHAXVran9RoSzgyXv6KMCE7WM="
   "resolved" "https://registry.npmjs.org/colors/-/colors-1.1.2.tgz"
   "version" "1.1.2"
@@ -3556,6 +3561,11 @@
     "miller-rabin" "^4.0.0"
     "randombytes" "^2.0.0"
 
+"dijkstrajs@^1.0.1":
+  "integrity" "sha512-QV6PMaHTCNmKSeP6QoXhVTw9snc9VD8MulTT0Bd99Pacp4SS1cjcrYPgBPmibqKVtMJJfqC6XvOXgPMEEPH/fg=="
+  "resolved" "https://registry.npmjs.org/dijkstrajs/-/dijkstrajs-1.0.2.tgz"
+  "version" "1.0.2"
+
 "dir-glob@^2.0.0":
   "integrity" "sha512-37qirFDz8cA5fimp9feo43fSuRo2gHwaIn6dXL8Ber1dGwUosDrGZeCCXq57WnIqE4aQ+u3eQZzsk1yOzhdwag=="
   "resolved" "https://registry.npmjs.org/dir-glob/-/dir-glob-2.0.0.tgz"
@@ -4075,6 +4085,22 @@
   "integrity" "sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc="
   "resolved" "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
   "version" "1.8.1"
+
+"ethereum-qr-code@^0.2.1":
+  "integrity" "sha512-uKfK2/WebSj7EcF4ZQ425vf2rPeonTyOl2esMuvmL7NuYeFHW4f3lS2YzTMuuc7JLO8h+gZxTKK7f968jgX3SA=="
+  "resolved" "https://registry.npmjs.org/ethereum-qr-code/-/ethereum-qr-code-0.2.1.tgz"
+  "version" "0.2.1"
+  dependencies:
+    "bignumber.js" "4.1.0"
+    "qrcode" "0.9.0"
+
+"ethereum-qr-code@^0.3.0":
+  "integrity" "sha512-n4Zv3dnfIm+qsQmAgWEzBkIGVDoIAT4vguJQCiD7Fk1CVo19gtiaaJj1NGqBK8SRINESnZ+4nlrUIKc42ICa9g=="
+  "resolved" "https://registry.npmjs.org/ethereum-qr-code/-/ethereum-qr-code-0.3.0.tgz"
+  "version" "0.3.0"
+  dependencies:
+    "bignumber.js" "4.1.0"
+    "qrcode" "0.9.0"
 
 "event-target-shim@^5.0.0":
   "integrity" "sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ=="
@@ -5995,6 +6021,11 @@
   "resolved" "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz"
   "version" "1.0.0"
 
+"isarray@^2.0.1":
+  "integrity" "sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw=="
+  "resolved" "https://registry.npmjs.org/isarray/-/isarray-2.0.5.tgz"
+  "version" "2.0.5"
+
 "isarray@0.0.1":
   "integrity" "sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8="
   "resolved" "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
@@ -7013,6 +7044,11 @@
   "integrity" "sha1-2ZwHpmnp5tJOE2Lf4mbGdhavEwI="
   "resolved" "https://registry.npmjs.org/lodash.uniqby/-/lodash.uniqby-4.7.0.tgz"
   "version" "4.7.0"
+
+"lodash.uniqueid@^4.0.1":
+  "integrity" "sha1-MmjyanyI5PSxdY1nknGBTjH6WyY="
+  "resolved" "https://registry.npmjs.org/lodash.uniqueid/-/lodash.uniqueid-4.0.1.tgz"
+  "version" "4.0.1"
 
 "lodash@^4.13.1", "lodash@^4.17.10", "lodash@^4.17.11", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.21", "lodash@^4.17.4", "lodash@^4.17.5", "lodash@>=3.5 <5":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
@@ -8376,6 +8412,11 @@
   "resolved" "https://registry.npmjs.org/pn/-/pn-1.1.0.tgz"
   "version" "1.1.0"
 
+"pngjs@^2.3.1":
+  "integrity" "sha1-EdHhK5y2TWPjDBQ6Mw9MH1Z9qF8="
+  "resolved" "https://registry.npmjs.org/pngjs/-/pngjs-2.3.1.tgz"
+  "version" "2.3.1"
+
 "pnp-webpack-plugin@1.1.0":
   "integrity" "sha512-CPCdcFxx7fEcDMWTDjXe2Wypt4JuMt4q5Q2UrpTcyBBkLiCIyPEh/mCGmUWIcNkKGyXwQ9Y2wVhlKm6ketiBNQ=="
   "resolved" "https://registry.npmjs.org/pnp-webpack-plugin/-/pnp-webpack-plugin-1.1.0.tgz"
@@ -9291,6 +9332,16 @@
     "prop-types" "^15.6.0"
     "qr.js" "0.0.0"
 
+"qrcode@0.9.0":
+  "integrity" "sha512-hYt2K3Y4hiYnRofqToRFLvloifpZlocZyTggrFlaG8xRV5odlUkJgRGN8J+pBcdIVzQ0RIGyqfAOdsj4bioTug=="
+  "resolved" "https://registry.npmjs.org/qrcode/-/qrcode-0.9.0.tgz"
+  "version" "0.9.0"
+  dependencies:
+    "colors" "*"
+    "dijkstrajs" "^1.0.1"
+    "isarray" "^2.0.1"
+    "pngjs" "^2.3.1"
+
 "qs@^6.5.2", "qs@~6.5.2", "qs@6.5.2":
   "integrity" "sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA=="
   "resolved" "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz"
@@ -9798,6 +9849,16 @@
   "resolved" "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-5.1.0.tgz"
   "version" "5.1.0"
 
+"react-ethereum@^1.0.3":
+  "integrity" "sha512-YGO4VOzfu/Smh7ukNAM+aXjTojso1FMg8SGEgbO51+z+V+W07hBdq/BRcL+AwJEuSmNGYHduQgAQdzSMnMiB6w=="
+  "resolved" "https://registry.npmjs.org/react-ethereum/-/react-ethereum-1.0.3.tgz"
+  "version" "1.0.3"
+  dependencies:
+    "ethereum-qr-code" "^0.2.1"
+    "lodash.uniqueid" "^4.0.1"
+    "prop-types" "^15.6.0"
+    "react" "^16.0.0"
+
 "react-is@^16.12.0", "react-is@^16.6.0", "react-is@^16.7.0", "react-is@^16.8.1":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -9908,7 +9969,7 @@
   optionalDependencies:
     "fsevents" "1.2.4"
 
-"react@*", "react@^0.14.0 || ^15.0.0-0 || ^16.0.0-0", "react@^15.5.3 || ^16.0.0 || ^17.0.0", "react@^16.14.0", "react@^16.6.3", "react@^16.8.0 || ^17.0.0", "react@>= 16.9.0", "react@>=15", "react@>=16.0.0", "react@>=16.9.0", "react@16.x":
+"react@*", "react@^0.14.0 || ^15.0.0-0 || ^16.0.0-0", "react@^15.5.3 || ^16.0.0 || ^17.0.0", "react@^16.0.0", "react@^16.14.0", "react@^16.6.3", "react@^16.8.0 || ^17.0.0", "react@>= 16.9.0", "react@>=15", "react@>=16.0.0", "react@>=16.9.0", "react@16.x":
   "integrity" "sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   "version" "16.14.0"

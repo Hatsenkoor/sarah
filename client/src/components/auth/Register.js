@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import EtherumQRCode from './EthereumQRCode';
 import {
   BrowserRouter as Router,
   Switch,
@@ -281,25 +282,15 @@ class Register extends Component {
         return <QrcodeDisplay />
     }
 
+    const paymentSuccess = () => {
+        console.log("Payment Success");
+        setCurrent(current + 1);
+    }
+                    
     const doPayment = () => {
         return(
            <div className = "domain-register-box">
-               <Router>
-                    <Switch>
-                        <Route path = "/register" exact>
-                            <Order />
-                        </Route>
-                        <Route path="/checkout" exact>
-                            {/* <Checkout /> */}
-                        </Route>
-                        <Route path = "/success" exact>
-
-                        </Route>
-                        <Route path = "/cancel" exact>
-
-                        </Route>
-                    </Switch>
-                </Router>
+              <EtherumQRCode value={price} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
            </div>
         );
     }
@@ -405,7 +396,7 @@ class Register extends Component {
           return;
       }
       if (current == 1 && pngUrl == ''){
-          message.error("Please download the QR Code first!");
+          message.error("Please do the payment first!");
           return;
       }
       if (current == 2 && !passwordSaved){

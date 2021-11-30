@@ -18,36 +18,56 @@ const API_PATH = 'https://test.ipdb.io/api/v1/';
 const conn = new driver.Connection(API_PATH);
 const md5 = require('md5');
 
-router.post("/get_domains_owner", (req, res) => {
-    console.log(req.body.searchword);
-    conn.searchAssets("table domain owner")
-    .then( assets => {
-        var temp = [];
-        var h;        
-             assets.forEach(item => {
-                if (item.data.domain){
-                    if (req.body.searchword){
-                        let str = item.data.domain; 
-                        if (str.indexOf(req.body.searchword) != -1){
-                            temp.push(item);
-                            h = 1;
-                        }
-                    } else {
-                        temp.push(item);
-                        h = 2;
-                    }                                     
-                }
-            })
-            console.log(temp)
-            // .then(() => {
-                res.json({
-                    status: "Get Domains Owner",
-                    success: true,
-                    domains: temp
-                })    
-            // });
-        });
+const Assets = require("../../models/Assets");
+
+router.post("/get_domains_owner", (req, res) => {    
+    var searchword = (req.body.searchword)? req.body.searchword: '';
+    Assets.find({"data.type" : "table domain owner", "data.domain": { $regex: '.*' + searchword + '.*' }})
+    .then(data => {
+        res.json({
+            status: "Get Domains Owner",
+            success: true,
+            domains: data
+        }) 
+    })
 });
+
+router.post("/modify_price", (req, res) => {
+    console.log(req.body);
+    const filter = {
+        "data.type" : "table domain owner",
+        "data.domain": req.body.domain
+    }
+    var update = {};
+    var status = "";
+    if (req.body.price){
+        update = {
+            "data.price": req.body.price
+        }
+        status = "Modify Price"
+    }
+    if (req.body.ipfshash){
+        update = {
+            "data.ipfshash": req.body.ipfshash
+        }
+        status = "Modify IPFS";
+    }
+    
+    Assets.updateOne(filter, update).then(result =>{
+        console.log(result);
+        if (!result){
+            return res.json({
+                status: status,
+                success: false
+            });
+        }   else {
+            return res.json({
+                status: status,
+                success: true
+            });
+        }
+    })
+})
 
 function retrieveTransaction(transactionId) {
     return new Promise(function (resolve, reject) {

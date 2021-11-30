@@ -2,7 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, IS_UNIQUE_DOMAIN, INSERT_OWNER_LOGIN, CREATE_IPFS, INSERT_OWNER_DOMAIN, LOGIN_WALLET } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, IS_UNIQUE_DOMAIN, INSERT_OWNER_LOGIN, CREATE_IPFS, INSERT_OWNER_DOMAIN, LOGIN_WALLET, CHANGE_OWNER_DOMAIN } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -34,6 +34,7 @@ export const insertOwnerDomainAction = (params) => dispatch => {
     })
   );
 }
+
 
 export const createIPFSAction = (params) => dispatch => {
   axios

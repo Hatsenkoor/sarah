@@ -1,3 +1,4 @@
+
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -6,6 +7,7 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 const mongoose = require('mongoose');
 const fs = require('fs');
+const client = require("../../server");
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -13,38 +15,90 @@ const pinataSDK = require('@pinata/sdk');
 const pinata = pinataSDK('7f7707b84eee87b7ac79', 'd442b22760a00cc32377624db6028a59f58079c8e511378e715f4e9576cba95e');
 //====================== Bigchain-db Connection ===============================
 
+const Orm = require('bigchaindb-orm').default;
 const driver = require('bigchaindb-driver');
-const API_PATH = 'https://test.ipdb.io/api/v1/';
+const API_PATH = 'http://ox21.xyz/api/v1/';
 const conn = new driver.Connection(API_PATH);
 const md5 = require('md5');
 //===============================================================================
 const date = require('date-and-time');
 
 // Load User model
-const User = require("../../models/User");
+const Asset = require("../../models/Assets");
+const Metadata = require("../../models/Metadata");
+const Transaction = require("../../models/Transaction");
+const Assets = require("../../models/Assets");
+
+// import bigchaindb-orm
+// connect to BigchainDB
+const bdbOrm = new Orm(
+    "http://ox21.xyz/api/v1/",
+    {
+        app_id: "",
+        app_key: ""
+    }
+)
+// define(<model name>,<additional information>)
+// <model name>: represents the name of model you want to store
+// <additional inf.>: any information you want to pass about the model (can be string or object)
+// note: cannot be changed once set!
+bdbOrm.define("domainModel", "https://schema.org/v1/myModel")
+// // create a public and private key for Alice
+const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+
+
 
 router.post("/verify_unique", (req, res) => {  
-    // console.log(req);
-    var unique = true;
-    conn.searchAssets("table domain owner")
-    .then( assets => {
-        assets.forEach(item => {
-           if (item.data.domainhashcode == md5(req.body.domain)){            
-              unique = false;
-           }
-        });
-        return res.json({
-           status: "Verify Domain Unique",
-           uniqueFlag: unique,
-           success: true
-        })
+  // const database = mongoose.Schema({name: "asset"});
+  // const assets = database.collection("assets");
+  // Asset.find({"data.data.index" : "Ox21_table_global_channel_v1"}).then(data => {
+  //   console.log(data);
+  // })
+  // Transaction.findOne().then(data => {console.log(data)});
+    // console.log(db);
+    // db.transactions.findOne({"operation": "TRANSFER"})
+    // .then(data => {
+    //    console.log(data);
+    // })
+    // var unique = true;
+    Assets.findOne({
+      "data.type" : "table domain owner",
+      "data.domainhashcode": md5(req.body.domain)
     })
-    .catch(err => {
-        console.log(err);
-       return res.status(400).json({
-           success: false
-        })
-    });  
+    .then(result => {
+       if (result) {
+        return res.json({
+                 status: "Verify Domain Unique",
+                 uniqueFlag: false,
+                 success: true
+              })
+       } else {
+        return res.json({
+                 status: "Verify Domain Unique",
+                 uniqueFlag: true,
+                 success: true
+              })
+       }
+    })
+    // conn.searchAssets("table domain owner")
+    // .then( assets => {
+    //     assets.forEach(item => {
+    //        if (item.data.domainhashcode == md5(req.body.domain)){            
+    //           unique = false;
+    //        }
+    //     });
+    //     return res.json({
+    //        status: "Verify Domain Unique",
+    //        uniqueFlag: unique,
+    //        success: true
+    //     })
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    //    return res.status(400).json({
+    //        success: false
+    //     })
+    // });  
 });
 
 router.post("/create_ipfs", (req, res) => {
@@ -70,6 +124,7 @@ router.post("/create_ipfs", (req, res) => {
   content += "</body>";
   content += "</html>"
   
+
   var filename = req.body.domain + ".html";
   
   fs.writeFile(filename, content, function (err) {
@@ -90,7 +145,7 @@ router.post("/create_ipfs", (req, res) => {
         };
         pinata.pinFileToIPFS(readableStreamForFile, options).then((result) => {
             //handle results here
-            console.log(result);
+            console.log(result);            
             res.json({
                state: "Create IPFS Page",
                success: true,
@@ -98,11 +153,36 @@ router.post("/create_ipfs", (req, res) => {
             });
         }).catch((err) => {
             //handle error here
-            console.log(err);
+            // console.log(err);
         });      
 })
 
 router.post("/insert_owner_login", (req, res) => {
+    // bdbOrm.models.domainModel
+    // .create({
+    //     keypair: aliceKeypair,
+    //     data: { 
+    //         type: "table owner login",
+    //         walletaddress: req.body.wallet,
+    //         password: md5(req.body.password),
+    //         recovery: md5(req.body.recovery)
+    //     }
+    // })
+    // .then(asset => {
+    //   /*
+    //         asset is an object with all our data and functions
+    //         asset.id equals the id of the asset
+    //         asset.data is data of the last (unspent) transaction
+    //         asset.transactionHistory gives the full raw transaction history
+    //         Note: Raw transaction history has different object structure then
+    //         asset. You can find specific data change in metadata property.
+    //     */
+    //     console.log(asset)
+        
+    //     res.json({
+    //         success: true
+    //     })
+    // })
      const alice = new driver.Ed25519Keypair();
      const loginAsset = {
         type: "table owner login",
@@ -134,7 +214,7 @@ router.post("/insert_owner_login", (req, res) => {
 });
 
 router.post("/insert_owner_domain", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const alice = new driver.Ed25519Keypair();
   const domainAsset = {
      type: "table domain owner",
@@ -162,7 +242,7 @@ router.post("/insert_owner_domain", (req, res) => {
      // const elem = document.getElementById('lastTransaction')
      // elem.href = API_PATH + 'transactions/' + txSigned.id
      // elem.innerText = txSigned.id
-     console.log('Transaction', txSigned1, 'accepted');
+    //  console.log('Transaction', txSigned1, 'accepted');
      res.json({
          status: "Domain Register",
          success: true

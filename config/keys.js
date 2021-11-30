@@ -1,4 +1,4 @@
 module.exports = {
-  mongoURI: "mongodb://localhost:27017/",
+  mongoURI: "mongodb://ox21.xyz:27017/bigchain",
   secretOrKey: "secret"
 };

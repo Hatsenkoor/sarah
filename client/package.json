@@ -9,6 +9,7 @@
     "@stripe/stripe-js": "^1.21.1",
     "antd": "^4.17.1",
     "axios": "^0.18.0",
+    "big-number": "^2.0.0",
     "bigchaindb-driver": "^4.2.2",
     "classnames": "^2.2.6",
     "date-and-time": "^2.0.1",

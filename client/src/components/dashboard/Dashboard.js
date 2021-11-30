@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
-import { getDomainsOwnerAction } from "../../actions/domainActions";
+import { logoutUser  } from "../../actions/authActions";
+import { getDomainsOwnerAction, modifyDomainAction, createIPFSAction } from "../../actions/domainActions";
 import './Dashboard.css';
 import { Carousel, Input, Row, Col, Pagination, Button, message, Table, Modal, Spin } from 'antd';
 
@@ -120,9 +120,13 @@ class Dashboard extends Component {
     super();
     this.state = {
         listLoading: true,
+        listLoadingMsg: "Getting Domain List...",        
         ipfsModalVisible: false,
         priceModalVisible: false,
         selectedPrice: 1,
+        selectedDomain: "",
+        currentdomain: {},
+        ipfshash: ""
     };
   }
   onLogoutClick = e => {
@@ -144,6 +148,7 @@ class Dashboard extends Component {
               data.push({
                 no: id+1,
                 key: id,
+                wallet: item.data.walletaddress,
                    name: (item.data.domain),
                    cost: item.data.price,
                    created: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(item.data.created), 
@@ -162,12 +167,62 @@ class Dashboard extends Component {
           this.setState({listLoading: false});
           return;
       }
+
+      if (nextProps.domain.status == "Modify Price") {
+         if (nextProps.domain.success) {
+            // message.success("Modify Price Success!");
+            console.log(this.state.currentdomain);
+            var param = {
+              domain: this.state.currentdomain.name,
+              price: this.state.selectedPrice,
+              qrcode: 'pngUrl',
+              created: this.state.currentdomain.created,
+              updated: Date.now()
+            }
+            this.props.createIPFSAction(param);
+            // this.props.getDomainsOwnerAction();
+         } else {
+            message.error("Modify Price Failed!");
+            return;
+         }
+      }
+
+      if (nextProps.domain.success && nextProps.domain.status == "Create IPFS Page") {
+          this.setState({
+            ipfshash : nextProps.auth.ipfsHash
+          });
+          const domainParam = {              
+              domain: this.state.currentdomain.name,              
+              ipfshash: nextProps.auth.ipfsHash
+          } 
+          this.props.modifyDomainAction(domainParam);
+      }
+
+      if (nextProps.domain.success && nextProps.domain.status == "Modify IPFS"){
+         message.success("Changed successfully!");
+         this.props.getDomainsOwnerAction();
+         return;
+      }
   }
 
   setPrice = (e) => {
-      console.log(data[e.target.name]);
-      this.setState({selectedPrice: data[e.target.name].cost});
+      console.log(data[e.target.name]);      
+      this.setState({selectedDomain: data[e.target.name].name});
+      this.setState({currentdomain: data[e.target.name]});
       this.setPriceModalVisible(true);
+  }
+
+  modifyPrice = () => {
+      var paramObj = {
+          price: this.state.selectedPrice,
+          domain: this.state.selectedDomain
+      }
+      this.setState({
+        listLoading: true,
+        listLoadingMsg: "Modifying Domain. Please wait..."
+      })
+      this.props.modifyDomainAction(paramObj);
+      this.setPriceModalVisible(false);
   }
 
   setForSale = () => {
@@ -188,16 +243,21 @@ class Dashboard extends Component {
 
   onPriceChange = (e) => {
       console.log(e.target.value);
+      this.setState({selectedPrice: e.target.value});
   }
 
   onSearch = (value) => {
+    this.setState({
+       listLoadingMsg: "Searching Domains...",
+       listLoading: true
+    });
     this.props.getDomainsOwnerAction({searchword: value});
   }
 
   render() {
     const { user } = this.props.auth;
-    const { ipfsModalVisible, priceModalVisible, listLoading, selectedPrice } = this.state;
-    return (<Spin tip="Getting Domain Lists. Please Wait..." spinning={listLoading}>
+    const { ipfsModalVisible, priceModalVisible, listLoading, listLoadingMsg, selectedPrice } = this.state;
+    return (<Spin tip={listLoadingMsg} spinning={listLoading}>
       <div className="domain-main-container">
                 <Carousel afterChange={this.onChange} className="domain-carousel" >
                     <div className="slide1">
@@ -249,7 +309,7 @@ class Dashboard extends Component {
                   title="Change your domain price"
                   centered
                   visible={priceModalVisible}
-                  onOk={() => this.setPriceModalVisible(false)}
+                  onOk={this.modifyPrice}
                   onCancel={() => this.setPriceModalVisible(false)}
                   width={500}
                 >
@@ -262,7 +322,10 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   logoutUser: PropTypes.func.isRequired,
+  createIPFSAction: PropTypes.func.isRequired,
+  
   getDomainsOwnerAction : PropTypes.func.isRequired,
+  modifyDomainAction: PropTypes.func.isRequired,
   domain: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -274,5 +337,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logoutUser, getDomainsOwnerAction }
+  { logoutUser, getDomainsOwnerAction, modifyDomainAction, createIPFSAction }
 )(Dashboard);

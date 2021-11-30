@@ -20,10 +20,11 @@ import './Signup.css';
 import { Steps, Button, message, Descriptions, Badge, Input, Form, Spin, Alert } from 'antd';
 import { verify } from "jsonwebtoken";
 
+var BigNumber = require('big-number');
 const pinataSDK = require('@pinata/sdk');
 const pinata = pinataSDK('7f7707b84eee87b7ac79', 'd442b22760a00cc32377624db6028a59f58079c8e511378e715f4e9576cba95e');
 const fs = require('fs');
-var qrCanvas;
+var qrCanvas = '';
 var pngUrl = '';
 // const IPFS= require('ipfs-api');
 /* Create an instance of the client */
@@ -177,6 +178,11 @@ class Register extends Component {
 
   doRegister = async () => {      
       this.setState({registerloading: true});
+      // qrCanvas = document.getElementById("qr-gen");
+      // pngUrl = qrCanvas
+      //   .toDataURL("image/png")
+      //   .replace("image/png", "image/octet-stream");
+      
       const param = {
           wallet: this.state.wallet,
           password: this.state.password,
@@ -185,7 +191,7 @@ class Register extends Component {
       const ipfsParam = {
           domain: this.state.tempDomainName,
           price: this.state.price,
-          qrcode: pngUrl,
+          qrcode: 'pngUrl',
           created: Date.now(),
           updated: Date.now()
       }
@@ -273,7 +279,7 @@ class Register extends Component {
           };
             return (<div>
                         <QRcode 
-                            id = "qr-gen"
+                            id = "qr-gen1"
                             value = {qrCodeDestination}
                             size = {350}
                             includeMargin = {true}
@@ -295,10 +301,11 @@ class Register extends Component {
         setCurrent(current + 1);
     }
                     
-    const doPayment = () => {        
+    const doPayment = () => {
+        var p = new BigNumber(price).multiply(10000000).plus(orderID).multiply(100000000000);
         return(
            <div className = "domain-register-box">
-              <EtherumQRCode value={price * 1000000000000000000 + orderID * 10000000000} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
+              <EtherumQRCode id = "qr-gen" value={p} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
            </div>
         );
     }
@@ -405,10 +412,10 @@ class Register extends Component {
           message.error("Please input the valid domain");
           return;
       }
-      if (current == 1 && pngUrl == ''){
-          message.error("Please do the payment first!");
-          return;
-      }
+      // if (current == 1 && pngUrl == ''){
+      //     message.error("Please do the payment first!");
+      //     return;
+      // }
       if (current == 2 && !passwordSaved){
           message.error("Please save your password firstly!");
           return;

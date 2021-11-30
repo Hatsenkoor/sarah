@@ -22,13 +22,13 @@ class EthereumQRCode extends Component {
   generateQRCode() {
 
     let sendDetails;
-    console.log(this.props);
+    console.log(this.props.value.toString());
     if (this.props.uriScheme) {
       sendDetails = this.generator.readStringToJSON(this.props.uriScheme);
     } else {
       sendDetails = {
         to: this.props.to,
-        value: this.props.value,
+        value: this.props.value.toString(),
         gas: this.props.gas
       };
     }

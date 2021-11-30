@@ -1,4 +1,4 @@
-import { GET_DOMAINS_OWNER } from "../actions/types";
+import { GET_DOMAINS_OWNER, MODIFY_PRICE, CREATE_IPFS } from "../actions/types";
 
 const isEmpty = require("is-empty");
 
@@ -17,7 +17,20 @@ export default function(state = initialState, action) {
               domains: action.payload.domains,
               success: action.payload.success
           }
-          break;     
+          break;  
+      case MODIFY_PRICE:
+          return {
+              ...state,
+              status: action.payload.status,
+              success: action.payload.success
+          }  
+          case CREATE_IPFS:
+            return {
+              ...state,
+              status: action.payload.state,
+              success: action.payload.success,
+              ipfsHash: action.payload.CID
+            } 
       default:
         return state;
     }

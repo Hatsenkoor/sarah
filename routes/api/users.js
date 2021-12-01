@@ -17,7 +17,7 @@ const pinata = pinataSDK('7f7707b84eee87b7ac79', 'd442b22760a00cc32377624db6028a
 
 const Orm = require('bigchaindb-orm').default;
 const driver = require('bigchaindb-driver');
-const API_PATH = 'http://ox21.xyz/api/v1/';
+const API_PATH = 'https://ox21.xyz/api/v1/';
 const conn = new driver.Connection(API_PATH);
 const md5 = require('md5');
 //===============================================================================
@@ -32,7 +32,7 @@ const Assets = require("../../models/Assets");
 // import bigchaindb-orm
 // connect to BigchainDB
 const bdbOrm = new Orm(
-    "http://ox21.xyz/api/v1/",
+    "https://ox21.xyz/api/v1/",
     {
         app_id: "",
         app_key: ""

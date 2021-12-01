@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import EtherumQRCode from './EthereumQRCode';
+import $ from "jquery";
 import {
   BrowserRouter as Router,
   Switch,
@@ -178,11 +179,12 @@ class Register extends Component {
 
   doRegister = async () => {      
       this.setState({registerloading: true});
-      // qrCanvas = document.getElementById("qr-gen");
+      qrCanvas = document.getElementById("qr-gen");
       // pngUrl = qrCanvas
       //   .toDataURL("image/png")
       //   .replace("image/png", "image/octet-stream");
-      
+      console.log(qrCanvas);
+      return;
       const param = {
           wallet: this.state.wallet,
           password: this.state.password,
@@ -300,12 +302,13 @@ class Register extends Component {
         console.log("Payment Success");
         setCurrent(current + 1);
     }
-                    
+
     const doPayment = () => {
         var p = new BigNumber(price).multiply(10000000).plus(orderID).multiply(100000000000);
+        console.log(EtherumQRCode.value)
         return(
            <div className = "domain-register-box">
-              <EtherumQRCode id = "qr-gen" value={p} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
+              <EtherumQRCode ref = {node => this.refs.myCanvas = node } id = "qr-gen" value={p} gas={1300} to={"0xaEAD721Ec86dD4a0E9c41d4d41A856327B725b66"} paymentSuccess = {paymentSuccess}/>               
            </div>
         );
     }
@@ -416,6 +419,11 @@ class Register extends Component {
       //     message.error("Please do the payment first!");
       //     return;
       // }
+      if (current == 1) {
+          // qrCanvas = document.getElementById("qr-gen");
+          
+          // console.log(this.refs.myCanvas);
+      }
       if (current == 2 && !passwordSaved){
           message.error("Please save your password firstly!");
           return;

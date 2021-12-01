@@ -20,7 +20,7 @@ export const getDomainsOwnerAction = (params) => dispatch => {
         payload: err.response.data
       })
     );
-  }
+}
 
 export const modifyDomainAction = (params) => dispatch => {
    axios

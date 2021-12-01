@@ -315,7 +315,8 @@ class Dashboard extends Component {
                 >
                     <Input type="number" min = {selectedPrice} onChange = {this.onPriceChange} /> 
                 </Modal>
-            </div></Spin>
+            </div>
+        </Spin>
     );
   }
 }

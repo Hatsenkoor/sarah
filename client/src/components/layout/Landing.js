@@ -11,11 +11,11 @@ class Landing extends Component {
         <div className="row">
           <div className="col s12 center-align">
             <h4>
-              <b>Build</b> a login/auth app with the{" "}
-              <span style={{ fontFamily: "monospace" }}>0x21</span> domain 
+              <b>Gather</b> Interests via collecting whitelist{" "}
+              <span style={{ fontFamily: "monospace" }}>Whitelist</span>
             </h4>
             <p className="flow-text grey-text text-darken-1">
-              Buy and Manage your 0x21 domains
+              Add to your whitelist
             </p>
             <br />
             <div className="col s6">
@@ -28,12 +28,12 @@ class Landing extends Component {
                 }}
                 className="btn btn-large waves-effect waves-light hoverable blue accent-3"
               >
-                Register Now
+                Add Now
               </Link>
             </div>
             <div className="col s6">
               <Link
-                to="/login"
+                to="/"
                 style={{
                   width: "140px",
                   borderRadius: "3px",
@@ -41,7 +41,7 @@ class Landing extends Component {
                 }}
                 className="btn btn-large btn-flat waves-effect white black-text"
               >
-                Log In Now
+                Others
               </Link>
             </div>
           </div>

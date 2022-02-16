@@ -2,7 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, IS_UNIQUE_DOMAIN, INSERT_OWNER_LOGIN, CREATE_IPFS, INSERT_OWNER_DOMAIN, LOGIN_WALLET, CHANGE_OWNER_DOMAIN } from "./types";
+import { ADD_WHITELIST, GET_ERRORS, SET_CURRENT_USER, USER_LOADING, IS_UNIQUE_DOMAIN, INSERT_OWNER_LOGIN, CREATE_IPFS, INSERT_OWNER_DOMAIN, LOGIN_WALLET, CHANGE_OWNER_DOMAIN } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -16,6 +16,41 @@ export const registerUser = (userData, history) => dispatch => {
       })
     );
 };
+
+export const addWhitelistAction = (params) => dispatch => {
+  console.log(params);
+  axios
+  .post("/api/users/add_whitelist", params)
+  .then(res => {
+      dispatch({
+        type: ADD_WHITELIST,
+        payload: res.data
+      })
+  })
+  .catch(err =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  );
+}
+export const modifyWhitelistAction = (params) => dispatch => {
+  console.log(params);
+  axios
+  .post("/api/users/update_whitelist", params)
+  .then(res => {
+      dispatch({
+        type: ADD_WHITELIST,
+        payload: res.data
+      })
+  })
+  .catch(err =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  );
+}
 
 export const insertOwnerDomainAction = (params) => dispatch => {
   axios
@@ -79,7 +114,7 @@ export const insertOwnerLoginAction = (params) => dispatch => {
       console.log(res);
       dispatch({
         type: INSERT_OWNER_LOGIN,
-        payload: res.data.success
+        payload: res.data
       })
   })
   .catch(err =>

@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require('cors')
+const mysql = require("mysql");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -6,7 +8,8 @@ require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const users = require("./routes/api/users");
 const domains = require("./routes/api/domains");
-
+const whitelists = require("./routes/api/whitelists");
+const path = require("path");
 const app = express();
 
 // const cors = require('cors');
@@ -35,16 +38,33 @@ app.use(
 app.use(bodyParser.json());
 
 // DB Config
-const db = require("./config/keys").mongoURI;
+// const db = require("./config/keys").mongoURI;
 
-// Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
-  .then((res) => console.log("hhhhh"))
-  .catch(err => console.log(err));
+// // Connect to MongoDB
+// mongoose
+//   .connect(
+//     db,
+//     { useNewUrlParser: true }
+//   )
+//   .then((res) => console.log("hhhhh"))
+//   .catch(err => console.log(err));
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'main',
+  // socketPath: '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.log(err)
+  }
+})
+
+console.log(connection);
+
 
 // Passport middleware
 app.use(passport.initialize());
@@ -55,6 +75,7 @@ app.use(passport.initialize());
 // Routes
 app.use("/api/users", users);
 app.use("/api/domains", domains);
+app.use("/api/whitelists", whitelists);
 
 app.get("/configstripe", async (req, res) => {
     res.send({

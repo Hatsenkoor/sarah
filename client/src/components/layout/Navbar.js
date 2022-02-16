@@ -29,10 +29,10 @@ class Navbar extends Component
       const guestLinks = (
           <ul className="navbar-nav ml-auto">
               <li className="nav-item mr-2">
-                  <Link to="/login" className="btn btn-outline-primary">Login</Link>
+                  <Link to="/" className="btn btn-outline-primary">Login</Link>
               </li>
               <li className="nav-item">
-                  <Link to="/register" className="btn btn-primary">Register</Link>
+                  <Link to="/" className="btn btn-primary">Register</Link>
               </li>
           </ul>
       );
@@ -54,7 +54,7 @@ class Navbar extends Component
         //   </nav>
         // </div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light domainnav">            
-            <Link to='/dashboard'><h1 className="navbar-brand domainlogo"><b>0X21 Domain Site</b></h1></Link>
+            <Link to='/'><h1 className="navbar-brand domainlogo"><b>Whitelisting</b></h1></Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavBar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>

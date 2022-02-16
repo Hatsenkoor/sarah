@@ -1,4 +1,4 @@
-import { LOGIN_WALLET, SET_CURRENT_USER, USER_LOADING, IS_UNIQUE_DOMAIN, INSERT_OWNER_LOGIN, CREATE_IPFS, INSERT_OWNER_DOMAIN, CHANGE_OWNER_DOMAIN } from "../actions/types";
+import { LOGIN_WALLET, SET_CURRENT_USER, USER_LOADING, IS_UNIQUE_DOMAIN, INSERT_OWNER_LOGIN, CREATE_IPFS, INSERT_OWNER_DOMAIN, CHANGE_OWNER_DOMAIN, ADD_WHITELIST } from "../actions/types";
 
 const isEmpty = require("is-empty");
 
@@ -43,7 +43,8 @@ export default function(state = initialState, action) {
     case INSERT_OWNER_LOGIN:
       return {
         ...state,
-        insertOwnerLoginFlag: action.payload
+        insertOwnerLoginFlag: action.payload.success,
+        status: action.payload.status
       }
     case CREATE_IPFS:
       return {
@@ -57,6 +58,13 @@ export default function(state = initialState, action) {
         ...state,
         status: action.payload.status,
         success: action.payload.success
+      }
+    case ADD_WHITELIST:
+      return{
+        ...state,
+        status: action.payload.status,
+        success: action.payload.success,
+        msg: action.payload.msg,
       }
     default:
       return state;

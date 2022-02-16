@@ -6,6 +6,15 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 const mongoose = require('mongoose');
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'main',
+  // socketPath: '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
+});
 const fs = require('fs');
 const client = require("../../server");
 // Load input validation
@@ -17,7 +26,7 @@ const pinata = pinataSDK('7f7707b84eee87b7ac79', 'd442b22760a00cc32377624db6028a
 
 const Orm = require('bigchaindb-orm').default;
 const driver = require('bigchaindb-driver');
-const API_PATH = 'https://ox21.xyz/api/v1/';
+const API_PATH = 'http://ox21.xyz/api/v1/';
 const conn = new driver.Connection(API_PATH);
 const md5 = require('md5');
 //===============================================================================
@@ -46,7 +55,45 @@ bdbOrm.define("domainModel", "https://schema.org/v1/myModel")
 // // create a public and private key for Alice
 const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
 
+const Whitelists = require("../../models/Whitelists");
 
+router.post("/add_whitelist", (req, res) => {
+    console.log(req.body);
+    // Whitelists.findOne({wallet: req.body.wallet}).then(data => {
+    //     if (data) {
+    //         return res.json({status: "add whitelist", success: false, msg: "wallet already exists"});
+    //     } else {
+    //         const newWhiteList = new Whitelists({
+    //             wallet: req.body.wallet,
+    //             email: req.body.email,
+    //             confirmed: 0,
+    //             opt_out: ""
+    //         });
+    //         newWhiteList.save();
+    //         res.json({status: "add whitelist", success: true});
+    //     }
+    // })
+    const { wallet, email } = req.body;
+    const ADD_WHITELIST = `INSERT INTO whitelists (wallet, email, confirmed, otp_out) VALUES ('${wallet}', '${email}', 0, '');`
+    connection.query(ADD_WHITELIST, (err, _teams) => {
+      if (err) {
+        res.send(err)
+      } else {
+        res.json({status: "add whitelist", success: true});
+      }
+    })
+})
+router.post("/update_whitelist", (req, res) => {
+    console.log(req.body.otp);
+    const UPDATE_WHITELIST = `UPDATE whitelists SET confirmed = 1, otp_out = '${req.body.otp}' WHERE wallet = '${req.body.wallet}'`;
+    connection.query(UPDATE_WHITELIST, (err, _teams) => {
+      if (err) {
+        res.send(err)
+      } else {
+        res.json({status: "modify whitelist", success: true});
+      }
+    })
+})
 
 router.post("/verify_unique", (req, res) => {  
   // const database = mongoose.Schema({name: "asset"});
@@ -145,7 +192,7 @@ router.post("/create_ipfs", (req, res) => {
         };
         pinata.pinFileToIPFS(readableStreamForFile, options).then((result) => {
             //handle results here
-            console.log(result);            
+            console.log(result, "ddd");            
             res.json({
                state: "Create IPFS Page",
                success: true,
@@ -153,7 +200,7 @@ router.post("/create_ipfs", (req, res) => {
             });
         }).catch((err) => {
             //handle error here
-            // console.log(err);
+            console.log(err);
         });      
 })
 
@@ -191,6 +238,7 @@ router.post("/insert_owner_login", (req, res) => {
         recovery: md5(req.body.recovery)
         // recoverphase: "foam,pumpkin,road,educate,valley,gain,unique,guess,nurse,small,doctor,return"
      }
+     console.log(loginAsset);
      const tx1 = driver.Transaction.makeCreateTransaction(          
         loginAsset,
         { what: 'table owner login' },
@@ -208,6 +256,7 @@ router.post("/insert_owner_login", (req, res) => {
         // elem.innerText = txSigned.id
         console.log('Transaction', txSigned1.id, 'accepted');
         res.json({
+            status: "Insert Owner Login",
             success: true
         })
      });
@@ -299,8 +348,8 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
   console.log(wallet);
   console.log(md5(password));
-  conn.searchAssets("table owner login").then(async assets => {
-      await assets.forEach(item => {            
+  conn.searchAssets("table owner login").then( assets => {
+       assets.forEach(item => {            
           console.log(item.data);
           if (item.data.walletaddress == req.body.wallet){
             if (item.data.password == md5(req.body.password)){

@@ -29,44 +29,6 @@ const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
-    filters: [
-      {
-        text: 'Joe',
-        value: 'Joe',
-      },
-      {
-        text: 'Category 1',
-        value: 'Category 1',
-        children: [
-          {
-            text: 'Yellow',
-            value: 'Yellow',
-          },
-          {
-            text: 'Pink',
-            value: 'Pink',
-          },
-        ],
-      },
-      {
-        text: 'Category 2',
-        value: 'Category 2',
-        children: [
-          {
-            text: 'Green',
-            value: 'Green',
-          },
-          {
-            text: 'Black',
-            value: 'Black',
-          },
-        ],
-      },
-    ],
-    filterMode: 'tree',
-    filterSearch: true,
-    onFilter: (value, record) => record.name.includes(value),
-    width: '10%',
   },
   {
     title: 'Cost/JIN',
@@ -75,19 +37,7 @@ const columns = [
   },
   {
     title: 'Created At',
-    dataIndex: 'created',
-    filters: [
-      {
-        text: 'London',
-        value: 'London',
-      },
-      {
-        text: 'New York',
-        value: 'New York',
-      },
-    ],
-    onFilter: (value, record) => record.created.startsWith(value),
-    filterSearch: true,
+    dataIndex: 'created',    
     width: '20%',
   },
   {
@@ -153,7 +103,7 @@ class Dashboard extends Component {
                    cost: item.data.price,
                    created: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(item.data.created), 
                    updated: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(item.data.updated),
-                   action : <div><button type="danger" name={id} style={{marginRight: '10px'}} onClick={this.setPrice}>{"Set Price"}</button><button name={id} type="primary" onClick={this.setForSale}>{"For Sale"}</button></div>
+                   action : <div><button type="danger" name={id} style={{marginRight: '10px'}} onClick={this.setPrice}>{"Set Price"}</button></div>
                 });
                 modaldata.push({
                   key: id,
